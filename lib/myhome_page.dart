@@ -76,7 +76,7 @@ class MyHomePage extends StatelessWidget {
               leading: Icon(Icons.looks_one),
               title: Text('판매완료내역'),
               onTap: () {
-                Navigator.pushNamed(context, SalesComleted.id);
+                Navigator.pushNamed(context, SalesCompleted.id);
               },
             ),
             ListTile(

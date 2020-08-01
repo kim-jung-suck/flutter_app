@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum DealerType {
-  salesType,
-  factory,
-  wholeSale,
-  factoryandwhole,
-}
+enum DealerType { salesType, factory, wholeSale, etc }
 
 //아래와 같은 형식으로 데이터가 저장되어 보여준다는 의미임.(양식의 개념)
 class Supplier extends StatefulWidget {
@@ -23,6 +18,7 @@ class _SupplierState extends State<Supplier> {
   double boxHeight = 75;
   bool ceoPhone = true;
   bool managerPhone = true;
+  bool choiceOrder = true;
 
   void _getceoPhone() {
     setState(() {
@@ -33,6 +29,12 @@ class _SupplierState extends State<Supplier> {
   void _getmanagerPhone() {
     setState(() {
       managerPhone = !managerPhone;
+    });
+  }
+
+  void _getchoiceOrder() {
+    setState(() {
+      choiceOrder = !choiceOrder;
     });
   }
 
@@ -47,13 +49,33 @@ class _SupplierState extends State<Supplier> {
         child: Column(
           children: [
             Container(
+              child: Row(
+                children: [
+                  ConstrainedBox(
+                    constraints:
+                        BoxConstraints.tight(Size(boxWide + 180, boxHeight)),
+                    child: ListTile(
+                      onTap: _getchoiceOrder,
+                      title: Text('등록된 거래처리스트 출력'), //체크박스로 선택하여 수정할 수 있게함
+                      leading: choiceOrder
+                          ? Icon(Icons.check_box_outline_blank)
+                          : Icon(
+                              Icons.check_box,
+                            ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
               child: Column(
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -64,7 +86,7 @@ class _SupplierState extends State<Supplier> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 50, boxHeight),
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -75,7 +97,7 @@ class _SupplierState extends State<Supplier> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 50, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
@@ -97,9 +119,10 @@ class _SupplierState extends State<Supplier> {
                       ),
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<DealerType>(
                           builder: (FormFieldState<DealerType> state) {
@@ -119,17 +142,22 @@ class _SupplierState extends State<Supplier> {
                                   value: DealerType.factory,
                                 ),
                                 DropdownMenuItem<DealerType>(
-                                  child: Text('총판/공장'),
-                                  value: DealerType.factoryandwhole,
+                                  child: Text('기타'),
+                                  value: DealerType.etc,
                                 ),
                               ],
                               onChanged: (DealerType val) {
-                                setState(() => choiceDealer = val); //주문확인 카톡
+                                setState(() => choiceDealer = val);
                               },
                             );
                           },
                         ),
                       ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -143,19 +171,15 @@ class _SupplierState extends State<Supplier> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '관리자',
+                              labelText: '주소',
                             ),
                             keyboardType: TextInputType.text),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -167,36 +191,41 @@ class _SupplierState extends State<Supplier> {
                             ),
                             keyboardType: TextInputType.text),
                       ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 50, boxHeight),
+                        ),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: '대표연락처',
                             ),
-                            child: TextFormField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: '대표연락처',
-                                ),
-                                keyboardType: TextInputType.phone),
-                          ),
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide + 40, boxHeight),
-                            ),
-                            child: ListTile(
-                              onTap: _getceoPhone,
-                              title: Text('카톡'),
-                              leading: ceoPhone
-                                  ? Icon(Icons.check_box_outline_blank)
-                                  : Icon(
-                                      Icons.check_box,
-                                      color: Colors.pink,
-                                    ),
-                            ),
-                          )
-                        ],
+                            keyboardType: TextInputType.phone),
                       ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 40, boxHeight - 18),
+                        ),
+                        child: ListTile(
+                          onTap: _getceoPhone,
+                          title: Text('카톡'),
+                          leading: ceoPhone
+                              ? Icon(Icons.check_box_outline_blank)
+                              : Icon(
+                                  Icons.check_box,
+                                  color: Colors.pink,
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -208,40 +237,36 @@ class _SupplierState extends State<Supplier> {
                             ),
                             keyboardType: TextInputType.text),
                       ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 50, boxHeight),
+                        ),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: '담당연락처',
                             ),
-                            child: TextFormField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: '담당연락처',
-                                ),
-                                keyboardType: TextInputType.phone),
-                          ),
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide + 40, boxHeight),
-                            ),
-                            child: ListTile(
-                              onTap: _getmanagerPhone,
-                              title: Text('카톡'),
-                              leading: managerPhone
-                                  ? Icon(Icons.check_box_outline_blank)
-                                  : Icon(
-                                      Icons.check_box,
-                                      color: Colors.pink,
-                                    ),
-                            ),
-                          )
-                        ],
+                            keyboardType: TextInputType.phone),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 40, boxHeight - 18),
+                        ),
+                        child: ListTile(
+                          onTap: _getmanagerPhone, //주문확인 카톡
+                          title: Text('카톡'),
+                          leading: managerPhone
+                              ? Icon(Icons.check_box_outline_blank)
+                              : Icon(
+                                  Icons.check_box,
+                                  color: Colors.pink,
+                                ),
+                        ),
+                      ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -282,6 +307,22 @@ class _SupplierState extends State<Supplier> {
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
+                              labelText: '관리자',
+                            ),
+                            keyboardType: TextInputType.text),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
                               labelText: '선지급금액',
                             ),
                             keyboardType: TextInputType.number),
@@ -297,10 +338,6 @@ class _SupplierState extends State<Supplier> {
                             ),
                             keyboardType: TextInputType.number),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -336,7 +373,7 @@ class _SupplierState extends State<Supplier> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
@@ -362,7 +399,7 @@ class _SupplierState extends State<Supplier> {
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '거래처명',
+                              labelText: '제조사',
                             ),
                             keyboardType: TextInputType.number),
                       ),
@@ -397,6 +434,22 @@ class _SupplierState extends State<Supplier> {
                             style: TextStyle(color: Colors.white),
                           ),
                           color: Colors.lightBlue,
+                          onPressed: () {},
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: RaisedButton(
+                          child: Text(
+                            '삭제',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          color: Colors.teal,
                           onPressed: () {},
                         ),
                       ),

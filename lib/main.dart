@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         Catalog.id: (context) => Catalog(),
         OrderManage.id: (context) => OrderManage(),
         WarehouseManagement.id: (context) => WarehouseManagement(),
-        SalesComleted.id: (context) => SalesComleted(),
+        SalesCompleted.id: (context) => SalesCompleted(),
         SalesManage.id: (context) => SalesManage(),
         ReceiptHistory.id: (context) => ReceiptHistory(),
         IOManagement.id: (context) => IOManagement(),

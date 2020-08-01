@@ -76,10 +76,11 @@ class _SalesDealerState extends State<SalesDealer> {
               child: Column(
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -90,7 +91,7 @@ class _SalesDealerState extends State<SalesDealer> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 50, boxHeight),
                         ),
                         child: TextFormField(
                           decoration: InputDecoration(
@@ -101,7 +102,7 @@ class _SalesDealerState extends State<SalesDealer> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 50, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
@@ -123,9 +124,10 @@ class _SalesDealerState extends State<SalesDealer> {
                       ),
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<DealerType>(
                           builder: (FormFieldState<DealerType> state) {
@@ -156,6 +158,11 @@ class _SalesDealerState extends State<SalesDealer> {
                           },
                         ),
                       ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -169,19 +176,15 @@ class _SalesDealerState extends State<SalesDealer> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '관리자',
+                              labelText: '주소',
                             ),
                             keyboardType: TextInputType.text),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -193,36 +196,41 @@ class _SalesDealerState extends State<SalesDealer> {
                             ),
                             keyboardType: TextInputType.text),
                       ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 50, boxHeight),
+                        ),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: '대표연락처',
                             ),
-                            child: TextFormField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: '대표연락처',
-                                ),
-                                keyboardType: TextInputType.phone),
-                          ),
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide + 40, boxHeight),
-                            ),
-                            child: ListTile(
-                              onTap: _getceoPhone,
-                              title: Text('카톡'),
-                              leading: ceoPhone
-                                  ? Icon(Icons.check_box_outline_blank)
-                                  : Icon(
-                                      Icons.check_box,
-                                      color: Colors.pink,
-                                    ),
-                            ),
-                          )
-                        ],
+                            keyboardType: TextInputType.phone),
                       ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 40, boxHeight - 18),
+                        ),
+                        child: ListTile(
+                          onTap: _getceoPhone,
+                          title: Text('카톡'),
+                          leading: ceoPhone
+                              ? Icon(Icons.check_box_outline_blank)
+                              : Icon(
+                                  Icons.check_box,
+                                  color: Colors.pink,
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -234,40 +242,36 @@ class _SalesDealerState extends State<SalesDealer> {
                             ),
                             keyboardType: TextInputType.text),
                       ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 50, boxHeight),
+                        ),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: '담당연락처',
                             ),
-                            child: TextFormField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: '담당연락처',
-                                ),
-                                keyboardType: TextInputType.phone),
-                          ),
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide + 40, boxHeight),
-                            ),
-                            child: ListTile(
-                              onTap: _getmanagerPhone, //주문확인 카톡
-                              title: Text('카톡'),
-                              leading: managerPhone
-                                  ? Icon(Icons.check_box_outline_blank)
-                                  : Icon(
-                                      Icons.check_box,
-                                      color: Colors.pink,
-                                    ),
-                            ),
-                          )
-                        ],
+                            keyboardType: TextInputType.phone),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide + 40, boxHeight - 18),
+                        ),
+                        child: ListTile(
+                          onTap: _getmanagerPhone, //주문확인 카톡
+                          title: Text('카톡'),
+                          leading: managerPhone
+                              ? Icon(Icons.check_box_outline_blank)
+                              : Icon(
+                                  Icons.check_box,
+                                  color: Colors.pink,
+                                ),
+                        ),
+                      ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -308,6 +312,22 @@ class _SalesDealerState extends State<SalesDealer> {
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
+                              labelText: '관리자',
+                            ),
+                            keyboardType: TextInputType.text),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
                               labelText: '미수금액',
                             ),
                             keyboardType: TextInputType.number),
@@ -334,10 +354,6 @@ class _SalesDealerState extends State<SalesDealer> {
                             ),
                             keyboardType: TextInputType.number),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -362,7 +378,7 @@ class _SalesDealerState extends State<SalesDealer> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
@@ -388,7 +404,7 @@ class _SalesDealerState extends State<SalesDealer> {
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '거래처명',
+                              labelText: '거래처',
                             ),
                             keyboardType: TextInputType.number),
                       ),

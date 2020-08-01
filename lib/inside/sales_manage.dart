@@ -9,6 +9,7 @@ enum GoldType {
   nintyine_five,
   etc
 }
+enum GoldType2 { metal, forteenk, eighteenk, etc }
 enum LengthType { danwi, cm, ho }
 enum WeightType { danwi, don, g }
 enum ModelType {
@@ -38,10 +39,11 @@ class _SalesManageState extends State<SalesManage> {
   final _formKey = GlobalKey<FormState>();
 
   GoldType searchType = GoldType.metal;
+  GoldType2 searchType2 = GoldType2.eighteenk;
   LengthType choiceLength = LengthType.danwi;
   ModelType searchModel = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
-  WeightType choiceWeight = WeightType.danwi;
+  WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
   TradeType tradeType = TradeType.tradetype;
   ProductType productType = ProductType.productType;
@@ -50,18 +52,6 @@ class _SalesManageState extends State<SalesManage> {
   bool subLine = true;
   double boxWide = 90;
   double boxHeight = 75;
-
-  void _getExtraLine() {
-    setState(() {
-      extraLine = !extraLine;
-    });
-  }
-
-  void _getSubLine() {
-    setState(() {
-      subLine = !subLine;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +74,8 @@ class _SalesManageState extends State<SalesManage> {
               child: Column(
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-//                      ConstrainedBox(
-//                        constraints:
-//                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: '접수일',
-//                          ),
-//                          keyboardType: TextInputType.datetime,
-//                        ),
-//                      ),
                       ConstrainedBox(
                         constraints:
                             BoxConstraints.tight(Size(boxWide, boxHeight)),
@@ -109,18 +89,18 @@ class _SalesManageState extends State<SalesManage> {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '거래처명',
+                              labelText: '거래처',
                             ),
                             keyboardType: TextInputType.number),
                       ),
                       ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide, boxHeight)),
+                        constraints: BoxConstraints.tight(
+                            Size(boxWide + 150, boxHeight)),
                         child: TextFormField(
                           //15자 입력공간 필요
                           decoration: InputDecoration(
@@ -131,9 +111,10 @@ class _SalesManageState extends State<SalesManage> {
                       ),
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<ProductType>(
                           builder: (FormFieldState<ProductType> state) {
@@ -164,7 +145,6 @@ class _SalesManageState extends State<SalesManage> {
                         '사진',
                         style: TextStyle(fontSize: 30),
                       ),
-
                       ConstrainedBox(
                         constraints:
                             BoxConstraints.tight(Size(boxWide, boxHeight)),
@@ -176,11 +156,17 @@ class _SalesManageState extends State<SalesManage> {
                           keyboardType: TextInputType.number,
                         ),
                       ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<GoldType>(
                           builder: (FormFieldState<GoldType> state) {
@@ -223,103 +209,93 @@ class _SalesManageState extends State<SalesManage> {
                           },
                         ),
                       ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
-                            ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: '중량',
-                              ),
-                              keyboardType: TextInputType.number,
-                            ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: '중량',
                           ),
-                          Container(
-                            width: boxWide,
-                            height: boxHeight,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1.0),
-                            ),
-                            child: FormField<WeightType>(
-                              builder: (FormFieldState<WeightType> state) {
-                                return DropdownButton<WeightType>(
-                                  value: choiceWeight,
-                                  items: [
-                                    DropdownMenuItem<WeightType>(
-                                      child: Text('단위'),
-                                      value: WeightType.danwi,
-                                    ),
-                                    DropdownMenuItem<WeightType>(
-                                      child: Text('돈'),
-                                      value: WeightType.don,
-                                    ),
-                                    DropdownMenuItem<WeightType>(
-                                      child: Text('g'),
-                                      value: WeightType.g,
-                                    ),
-                                  ],
-                                  onChanged: (WeightType val) {
-                                    setState(() => choiceWeight = val);
-                                  },
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                          keyboardType: TextInputType.number,
+                        ),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
-                            ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: '사이즈',
-                              ),
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                          Container(
-                            width: boxWide,
-                            height: boxHeight,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1.0),
-                            ),
-                            child: FormField<LengthType>(
-                              builder: (FormFieldState<LengthType> state) {
-                                return DropdownButton<LengthType>(
-                                  value: choiceLength,
-                                  items: [
-                                    DropdownMenuItem<LengthType>(
-                                      child: Text('단위'),
-                                      value: LengthType.danwi,
-                                    ),
-                                    DropdownMenuItem<LengthType>(
-                                      child: Text('cm'),
-                                      value: LengthType.cm,
-                                    ),
-                                    DropdownMenuItem<LengthType>(
-                                      child: Text('호'),
-                                      value: LengthType.ho,
-                                    ),
-                                  ],
-                                  onChanged: (LengthType val) {
-                                    setState(() => choiceLength = val);
-                                  },
-                                );
+                      Container(
+                        width: boxWide,
+                        height: boxHeight - 18,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        child: FormField<WeightType>(
+                          builder: (FormFieldState<WeightType> state) {
+                            return DropdownButton<WeightType>(
+                              value: choiceWeight,
+                              items: [
+                                DropdownMenuItem<WeightType>(
+                                  child: Text('단위'),
+                                  value: WeightType.danwi,
+                                ),
+                                DropdownMenuItem<WeightType>(
+                                  child: Text('돈'),
+                                  value: WeightType.don,
+                                ),
+                                DropdownMenuItem<WeightType>(
+                                  child: Text('g'),
+                                  value: WeightType.g,
+                                ),
+                              ],
+                              onChanged: (WeightType val) {
+                                setState(() => choiceWeight = val);
                               },
-                            ),
+                            );
+                          },
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: '사이즈',
                           ),
-                        ],
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      Container(
+                        width: boxWide,
+                        height: boxHeight - 18,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        child: FormField<LengthType>(
+                          builder: (FormFieldState<LengthType> state) {
+                            return DropdownButton<LengthType>(
+                              value: choiceLength,
+                              items: [
+                                DropdownMenuItem<LengthType>(
+                                  child: Text('단위'),
+                                  value: LengthType.danwi,
+                                ),
+                                DropdownMenuItem<LengthType>(
+                                  child: Text('cm'),
+                                  value: LengthType.cm,
+                                ),
+                                DropdownMenuItem<LengthType>(
+                                  child: Text('호'),
+                                  value: LengthType.ho,
+                                ),
+                              ],
+                              onChanged: (LengthType val) {
+                                setState(() => choiceLength = val);
+                              },
+                            );
+                          },
+                        ),
                       ),
                       ConstrainedBox(
                         constraints:
@@ -354,11 +330,23 @@ class _SalesManageState extends State<SalesManage> {
                           keyboardType: TextInputType.number,
                         ),
                       ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Container(
                         width: boxWide - 10,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<DecoType>(
                           builder: (FormFieldState<DecoType> state) {
@@ -395,144 +383,49 @@ class _SalesManageState extends State<SalesManage> {
                       ),
                       Container(
                         width: boxWide - 10,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
-                        child: FormField<GoldType>(
-                          builder: (FormFieldState<GoldType> state) {
-                            return DropdownButton<GoldType>(
-                              value: searchType,
+                        child: FormField<GoldType2>(
+                          builder: (FormFieldState<GoldType2> state) {
+                            return DropdownButton<GoldType2>(
+                              value: searchType2,
                               items: [
-                                DropdownMenuItem<GoldType>(
+                                DropdownMenuItem<GoldType2>(
                                   child: Text('재질'),
-                                  value: GoldType.metal,
+                                  value: GoldType2.metal,
                                 ),
-                                DropdownMenuItem<GoldType>(
+                                DropdownMenuItem<GoldType2>(
                                   child: Text('18k'),
-                                  value: GoldType.eighteenk,
+                                  value: GoldType2.eighteenk,
                                 ),
-                                DropdownMenuItem<GoldType>(
+                                DropdownMenuItem<GoldType2>(
                                   child: Text('14k'),
-                                  value: GoldType.forteenk,
+                                  value: GoldType2.forteenk,
                                 ),
-                                DropdownMenuItem<GoldType>(
+                                DropdownMenuItem<GoldType2>(
                                   child: Text('기타'),
-                                  value: GoldType.etc,
+                                  value: GoldType2.etc,
                                 ),
                               ],
-                              onChanged: (GoldType val) {
-                                setState(() => searchType = val);
+                              onChanged: (GoldType2 val) {
+                                setState(() => searchType2 = val);
                               },
                             );
                           },
                         ),
                       ),
-//                      ConstrainedBox(
-//                        constraints:
-//                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: '비고', //필요한 설명기재
-//                          ),
-//                          keyboardType: TextInputType.text,
-//                        ),
-//                      ),
-                    ],
-                  ),
-//                  Row(
-//                    children: [
-//                        ConstrainedBox(
-//                        constraints:
-//                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: '제조사',
-//                          ),
-//                          keyboardType: TextInputType.text,
-//                        ),
-//                    ),
-//                      Container(
-//                        width: boxWide - 10,
-//                        height: boxHeight,
-//                        decoration: BoxDecoration(
-//                          border: Border.all(width: 1.0),
-//                        ),
-//                        child: FormField<ProgressType>(
-//                          builder: (FormFieldState<ProgressType> state) {
-//                            return DropdownButton<ProgressType>(
-//                              value: progressType,
-//                              items: [
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('진행단계'), //확정상태임.
-//                                  value: ProgressType.progress,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('주문접수'),
-//                                  value: ProgressType.order,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('공장발주'),
-//                                  value: ProgressType.fac,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('입고'),
-//                                  value: ProgressType.office,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('판매'),
-//                                  value: ProgressType.custo,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('직판'),
-//                                  value: ProgressType.custo1,
-//                                ),
-//                              ],
-//                              onChanged: (ProgressType val) {
-//                                setState(() => progressType = val);
-//                              },
-//                            );
-//                          },
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
                       ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide + 50, boxHeight)),
-                        child: ListTile(
-                          onTap: _getExtraLine,
-                          title: Text('여유줄'), //결재시 공임 및 금중량기입
-                          leading: extraLine
-                              ? Icon(Icons.check_box_outline_blank)
-                              : Icon(
-                                  Icons.check_box,
-                                  color: Colors.pink,
-                                ),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide + 50, boxHeight)),
-                        child: ListTile(
-                          onTap: _getSubLine,
-                          title: Text('보조줄'), //결재시 공임 및 금중량기입
-                          leading: subLine
-                              ? Icon(Icons.check_box_outline_blank)
-                              : Icon(
-                                  Icons.check_box,
-                                  color: Colors.pink,
-                                ),
+                        constraints: BoxConstraints.tight(
+                            Size(boxWide + 150, boxHeight)),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: '비고', //주문관리로부터
+                          ),
+                          keyboardType: TextInputType.text,
                         ),
                       ),
                       ConstrainedBox(
@@ -557,6 +450,11 @@ class _SalesManageState extends State<SalesManage> {
                           keyboardType: TextInputType.number,
                         ),
                       ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       ConstrainedBox(
                         constraints:
                             BoxConstraints.tight(Size(boxWide, boxHeight)),
@@ -591,15 +489,12 @@ class _SalesManageState extends State<SalesManage> {
                           keyboardType: TextInputType.number,
                         ),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<TradeType>(
                           builder: (FormFieldState<TradeType> state) {
@@ -736,7 +631,7 @@ class _SalesManageState extends State<SalesManage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '순금환산', //(순금중량 * 적용시세 + 공임)/적용시세(뒷시세)
+                            labelText: '순금환산', //(순금중량 * 적용시세 + 공임)/적용시세
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -747,7 +642,7 @@ class _SalesManageState extends State<SalesManage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '시세환산', //(순금중량 * 적용시세 + 공임)
+                            labelText: '시세환산', //(순금중량 * 적용시세 + 공임)/적용시세
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -759,6 +654,7 @@ class _SalesManageState extends State<SalesManage> {
             ),
             Container(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
                     constraints: BoxConstraints.tight(
@@ -793,9 +689,10 @@ class _SalesManageState extends State<SalesManage> {
                   ),
                   Container(
                     width: boxWide,
-                    height: boxHeight,
+                    height: boxHeight - 18,
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1.0),
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
                     ),
                     child: FormField<GoldType>(
                       builder: (FormFieldState<GoldType> state) {
@@ -859,22 +756,6 @@ class _SalesManageState extends State<SalesManage> {
                 children: [
                   Row(
                     children: [
-//                      ConstrainedBo
-//                        constraints: BoxConstraints.tight(
-//                          Size(boxWide, boxHeight),
-//                        ),
-//                        child: RaisedButton(
-//                          child: Text(
-//                            '추가주문', //버튼 클릭시 모델명 이하 라인이 한줄씩 더 생김
-//                            style: TextStyle(color: Colors.white),
-//                          ),
-//                          color: Colors.orange,
-//                          onPressed: () {},
-//                        ),
-//                      ),
-//                      SizedBox(
-//                        width: 10,
-//                      ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -904,22 +785,6 @@ class _SalesManageState extends State<SalesManage> {
                           onPressed: () {},
                         ),
                       ),
-//                      SizedBox(
-//                        width: 10,
-//                      ),
-//                      ConstrainedBox(
-//                        constraints: BoxConstraints.tight(
-//                          Size(boxWide, boxHeight),
-//                        ),
-//                        child: RaisedButton(
-//                          child: Text(
-//                            '주문취소',
-//                            style: TextStyle(color: Colors.white),
-//                          ),
-//                          color: Colors.deepPurpleAccent,
-//                          onPressed: () {},
-//                        ),
-//                      ),
                     ],
                   )
                 ],

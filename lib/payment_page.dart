@@ -40,26 +40,12 @@ class _PaymentPageState extends State<PaymentPage> {
   LengthType choiceLength = LengthType.danwi;
   ModelType searchModel = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
-  WeightType choiceWeight = WeightType.danwi;
+  WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
   TradeType tradeType = TradeType.tradetype;
 
-  bool extraLine = true;
-  bool subLine = true;
   double boxWide = 100;
   double boxHeight = 75;
-
-  void _getExtraLine() {
-    setState(() {
-      extraLine = !extraLine;
-    });
-  }
-
-  void _getSubLine() {
-    setState(() {
-      subLine = !subLine;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +60,7 @@ class _PaymentPageState extends State<PaymentPage> {
             Container(
               child: Column(
                 children: [
-                  Text('주문리스트 출력'), //거래명세서 작성할 것(table)
+                  Text('주문리스트 출력'),
                 ],
               ),
             ),
@@ -85,12 +71,12 @@ class _PaymentPageState extends State<PaymentPage> {
                     children: [
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
-                          Size(boxWide, boxHeight),
+                          Size(boxWide + 150, boxHeight),
                         ),
                         child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '거래처명',
+                              labelText: '거래처', //재고관리 단기 보유재고 리스트부분에서 검색
                             ),
                             keyboardType: TextInputType.number),
                       ),
@@ -98,61 +84,51 @@ class _PaymentPageState extends State<PaymentPage> {
                     ],
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-//                      ConstrainedBox(
-//                        constraints:
-//                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: '접수일',
-//                          ),
-//                          keyboardType: TextInputType.datetime,
-//                        ),
-//                      ),
                       ConstrainedBox(
                         constraints:
                             BoxConstraints.tight(Size(boxWide, boxHeight)),
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '출고일',
+                            labelText: '출고일', //당일 자동입력
                           ),
                           keyboardType: TextInputType.datetime,
                         ),
                       ),
                       ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide, boxHeight)),
+                        constraints: BoxConstraints.tight(
+                            Size(boxWide + 150, boxHeight)),
                         child: TextFormField(
                           //15자 입력공간 필요
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '모델번호',
+                            labelText: '모델번호', //재고관리 단기 보유재고 리스트부분에서
                           ),
                         ),
                       ),
                       Text(
-                        '사진',
+                        '사진', //진행단계 입고 부분에서 검색
                         style: TextStyle(fontSize: 30),
                       ),
-
                       ConstrainedBox(
                         constraints:
                             BoxConstraints.tight(Size(boxWide, boxHeight)),
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '수량', //주문확인 카톡
+                            labelText: '수량', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
                       ),
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<GoldType>(
                           builder: (FormFieldState<GoldType> state) {
@@ -160,7 +136,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               value: searchType,
                               items: [
                                 DropdownMenuItem<GoldType>(
-                                  child: Text('재질'), //확정상태임
+                                  child: Text('재질'), //재고관리 단기 보유재고 리스트부분에서
                                   value: GoldType.metal,
                                 ),
                                 DropdownMenuItem<GoldType>(
@@ -195,103 +171,98 @@ class _PaymentPageState extends State<PaymentPage> {
                           },
                         ),
                       ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
-                            ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: '중량',
-                              ),
-                              keyboardType: TextInputType.number,
-                            ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: '중량', //재고관리 단기 보유재고 리스트부분에서
                           ),
-                          Container(
-                            width: boxWide,
-                            height: boxHeight,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1.0),
-                            ),
-                            child: FormField<WeightType>(
-                              builder: (FormFieldState<WeightType> state) {
-                                return DropdownButton<WeightType>(
-                                  value: choiceWeight,
-                                  items: [
-                                    DropdownMenuItem<WeightType>(
-                                      child: Text('단위'),
-                                      value: WeightType.danwi,
-                                    ),
-                                    DropdownMenuItem<WeightType>(
-                                      child: Text('돈'),
-                                      value: WeightType.don,
-                                    ),
-                                    DropdownMenuItem<WeightType>(
-                                      child: Text('g'),
-                                      value: WeightType.g,
-                                    ),
-                                  ],
-                                  onChanged: (WeightType val) {
-                                    setState(() => choiceWeight = val);
-                                  },
-                                );
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      Container(
+                        width: boxWide,
+                        height: boxHeight - 18,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        child: FormField<WeightType>(
+                          builder: (FormFieldState<WeightType> state) {
+                            return DropdownButton<WeightType>(
+                              value: choiceWeight,
+                              items: [
+                                DropdownMenuItem<WeightType>(
+                                  child: Text('단위'), //재고관리 단기 보유재고 리스트부분에서
+                                  value: WeightType.danwi,
+                                ),
+                                DropdownMenuItem<WeightType>(
+                                  child: Text('  돈'),
+                                  value: WeightType.don,
+                                ),
+                                DropdownMenuItem<WeightType>(
+                                  child: Text('  g'),
+                                  value: WeightType.g,
+                                ),
+                              ],
+                              onChanged: (WeightType val) {
+                                setState(() => choiceWeight = val);
                               },
-                            ),
-                          ),
-                        ],
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints.tight(
-                              Size(boxWide, boxHeight),
-                            ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: '사이즈',
-                              ),
-                              keyboardType: TextInputType.number,
-                            ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tight(
+                          Size(boxWide, boxHeight),
+                        ),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: '사이즈', //재고관리 단기 보유재고 리스트부분에서
                           ),
-                          Container(
-                            width: boxWide,
-                            height: boxHeight,
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1.0),
-                            ),
-                            child: FormField<LengthType>(
-                              builder: (FormFieldState<LengthType> state) {
-                                return DropdownButton<LengthType>(
-                                  value: choiceLength,
-                                  items: [
-                                    DropdownMenuItem<LengthType>(
-                                      child: Text('단위'),
-                                      value: LengthType.danwi,
-                                    ),
-                                    DropdownMenuItem<LengthType>(
-                                      child: Text('cm'),
-                                      value: LengthType.cm,
-                                    ),
-                                    DropdownMenuItem<LengthType>(
-                                      child: Text('호'),
-                                      value: LengthType.ho,
-                                    ),
-                                  ],
-                                  onChanged: (LengthType val) {
-                                    setState(() => choiceLength = val);
-                                  },
-                                );
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      Container(
+                        width: boxWide,
+                        height: boxHeight - 18,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                        ),
+                        child: FormField<LengthType>(
+                          builder: (FormFieldState<LengthType> state) {
+                            return DropdownButton<LengthType>(
+                              value: choiceLength,
+                              items: [
+                                DropdownMenuItem<LengthType>(
+                                  child: Text('단위'), //재고관리 단기 보유재고 리스트부분에서
+                                  value: LengthType.danwi,
+                                ),
+                                DropdownMenuItem<LengthType>(
+                                  child: Text('cm'),
+                                  value: LengthType.cm,
+                                ),
+                                DropdownMenuItem<LengthType>(
+                                  child: Text('호'),
+                                  value: LengthType.ho,
+                                ),
+                              ],
+                              onChanged: (LengthType val) {
+                                setState(() => choiceLength = val);
                               },
-                            ),
-                          ),
-                        ],
+                            );
+                          },
+                        ),
                       ),
                       ConstrainedBox(
                         constraints:
@@ -299,7 +270,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '공임', //카다로그 상의 공임
+                            labelText: '공임', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -310,7 +281,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '장식중량',
+                            labelText: '장식중량', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -321,16 +292,17 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '장식공임',
+                            labelText: '장식공임', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
                       ),
                       Container(
                         width: boxWide - 10,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<DecoType>(
                           builder: (FormFieldState<DecoType> state) {
@@ -338,7 +310,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               value: choiceDeco,
                               items: [
                                 DropdownMenuItem<DecoType>(
-                                  child: Text('장식'), //확정상태임.
+                                  child: Text('장식'), //재고관리 단기 보유재고 리스트부분에서
                                   value: DecoType.deco,
                                 ),
                                 DropdownMenuItem<DecoType>(
@@ -367,9 +339,10 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       Container(
                         width: boxWide - 10,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<GoldType>(
                           builder: (FormFieldState<GoldType> state) {
@@ -377,7 +350,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               value: searchType,
                               items: [
                                 DropdownMenuItem<GoldType>(
-                                  child: Text('재질'),
+                                  child: Text('재질'), //재고관리 단기 보유재고 리스트부분에서
                                   value: GoldType.metal,
                                 ),
                                 DropdownMenuItem<GoldType>(
@@ -400,77 +373,8 @@ class _PaymentPageState extends State<PaymentPage> {
                           },
                         ),
                       ),
-//                      ConstrainedBox(
-//                        constraints:
-//                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: '비고', //필요한 설명기재
-//                          ),
-//                          keyboardType: TextInputType.text,
-//                        ),
-//                      ),
                     ],
                   ),
-//                  Row(
-//                    children: [
-//                        ConstrainedBox(
-//                        constraints:
-//                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-//                        child: TextFormField(
-//                          decoration: InputDecoration(
-//                            border: OutlineInputBorder(),
-//                            labelText: '제조사',
-//                          ),
-//                          keyboardType: TextInputType.text,
-//                        ),
-//                    ),
-//                      Container(
-//                        width: boxWide - 10,
-//                        height: boxHeight,
-//                        decoration: BoxDecoration(
-//                          border: Border.all(width: 1.0),
-//                        ),
-//                        child: FormField<ProgressType>(
-//                          builder: (FormFieldState<ProgressType> state) {
-//                            return DropdownButton<ProgressType>(
-//                              value: progressType,
-//                              items: [
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('진행단계'), //확정상태임.
-//                                  value: ProgressType.progress,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('주문접수'),
-//                                  value: ProgressType.order,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('공장발주'),
-//                                  value: ProgressType.fac,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('입고'),
-//                                  value: ProgressType.office,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('판매'),
-//                                  value: ProgressType.custo,
-//                                ),
-//                                DropdownMenuItem<ProgressType>(
-//                                  child: Text('직판'),
-//                                  value: ProgressType.custo1,
-//                                ),
-//                              ],
-//                              onChanged: (ProgressType val) {
-//                                setState(() => progressType = val);
-//                              },
-//                            );
-//                          },
-//                        ),
-//                      ),
-//                    ],
-//                  ),
                 ],
               ),
             ),
@@ -480,31 +384,14 @@ class _PaymentPageState extends State<PaymentPage> {
                   Row(
                     children: [
                       ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide + 40, boxHeight)),
-                        child: ListTile(
-                          onTap: _getExtraLine,
-                          title: Text('여유줄'), //결재시 공임 및 금중량기입
-                          leading: extraLine
-                              ? Icon(Icons.check_box_outline_blank)
-                              : Icon(
-                                  Icons.check_box,
-                                  color: Colors.pink,
-                                ),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide + 40, boxHeight)),
-                        child: ListTile(
-                          onTap: _getSubLine,
-                          title: Text('보조줄'), //결재시 공임 및 금중량기입
-                          leading: subLine
-                              ? Icon(Icons.check_box_outline_blank)
-                              : Icon(
-                                  Icons.check_box,
-                                  color: Colors.pink,
-                                ),
+                        constraints: BoxConstraints.tight(
+                            Size(boxWide + 150, boxHeight)),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: '비고', //재고관리 단기 보유재고 리스트부분에서
+                          ),
+                          keyboardType: TextInputType.text,
                         ),
                       ),
                       ConstrainedBox(
@@ -513,7 +400,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '줄중량',
+                            labelText: '줄중량', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -524,7 +411,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText: '줄공임',
+                            labelText: '줄공임', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -535,8 +422,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            labelText:
-                                '추가비용', //24k 적정 길이를 초과할 경우 비용이 증대된다.다이아 등 14k, 18k의 추가비용 기재
+                            labelText: '추가비용', //재고관리 단기 보유재고 리스트부분에서
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -566,12 +452,14 @@ class _PaymentPageState extends State<PaymentPage> {
                     ],
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: boxWide,
-                        height: boxHeight,
+                        height: boxHeight - 18,
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0),
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
                         ),
                         child: FormField<TradeType>(
                           builder: (FormFieldState<TradeType> state) {
@@ -579,7 +467,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               value: tradeType,
                               items: [
                                 DropdownMenuItem<TradeType>(
-                                  child: Text('거래형태'),
+                                  child: Text(
+                                    '거래형태',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
                                   value: TradeType.tradetype,
                                 ),
                                 DropdownMenuItem<TradeType>(
@@ -605,6 +496,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: '뒷시세', //당일 금시세, 거래형태에서 시세거래시 활성화
+                            labelStyle: TextStyle(color: Colors.red),
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -616,6 +508,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: '앞시세', //당일 금시세, 거래형태에서 시세거래시 활성화
+                            labelStyle: TextStyle(color: Colors.red),
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -627,7 +520,8 @@ class _PaymentPageState extends State<PaymentPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText:
-                                '돈당 분석료', //거래형태에서 중량선택시 적용, 무땜 1,500원, 땜 2,500원, 칠보 5,000원
+                                '돈당분석료', //거래형태에서 중량선택시 적용, 무땜 1,500원, 땜 2,500원, 칠보 5,000원
+                            labelStyle: TextStyle(color: Colors.red),
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -643,6 +537,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: '적용시세', //당일 금시세
+                            labelStyle: TextStyle(color: Colors.red),
                           ),
                           keyboardType: TextInputType.number,
                         ),
@@ -681,17 +576,6 @@ class _PaymentPageState extends State<PaymentPage> {
                           keyboardType: TextInputType.number,
                         ),
                       ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints.tight(Size(boxWide, boxHeight)),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: '계약금',
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
                     ],
                   ),
                 ],
@@ -702,22 +586,6 @@ class _PaymentPageState extends State<PaymentPage> {
                 children: [
                   Row(
                     children: [
-//                      ConstrainedBox(
-//                        constraints: BoxConstraints.tight(
-//                          Size(boxWide, boxHeight),
-//                        ),
-//                        child: RaisedButton(
-//                          child: Text(
-//                            '추가주문', //버튼 클릭시 모델명 이하 라인이 한줄씩 더 생김
-//                            style: TextStyle(color: Colors.white),
-//                          ),
-//                          color: Colors.orange,
-//                          onPressed: () {},
-//                        ),
-//                      ),
-//                      SizedBox(
-//                        width: 10,
-//                      ),
                       ConstrainedBox(
                         constraints: BoxConstraints.tight(
                           Size(boxWide, boxHeight),
@@ -747,22 +615,6 @@ class _PaymentPageState extends State<PaymentPage> {
                           onPressed: () {},
                         ),
                       ),
-//                      SizedBox(
-//                        width: 10,
-//                      ),
-//                      ConstrainedBox(
-//                        constraints: BoxConstraints.tight(
-//                          Size(boxWide, boxHeight),
-//                        ),
-//                        child: RaisedButton(
-//                          child: Text(
-//                            '주문취소',
-//                            style: TextStyle(color: Colors.white),
-//                          ),
-//                          color: Colors.deepPurpleAccent,
-//                          onPressed: () {},
-//                        ),
-//                      ),
                     ],
                   )
                 ],
