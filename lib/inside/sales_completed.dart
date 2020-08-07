@@ -39,9 +39,9 @@ class SalesCompleted extends StatefulWidget {
 class _SalesCompletedState extends State<SalesCompleted> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
+  GoldType goldType = GoldType.metal;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
   WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
@@ -286,7 +286,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                           child: FormField<ModelType>(
                             builder: (FormFieldState<ModelType> state) {
                               return DropdownButton<ModelType>(
-                                value: searchModel,
+                                value: modelType,
                                 items: [
                                   DropdownMenuItem<ModelType>(
                                     child: Text(
@@ -333,7 +333,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                                   ),
                                 ],
                                 onChanged: (ModelType val) {
-                                  setState(() => searchModel = val);
+                                  setState(() => modelType = val);
                                 },
                               );
                             },
@@ -355,7 +355,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text(' 재질'), //주문관리로 부터
@@ -387,7 +387,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -606,7 +606,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('재질'), //주문관리
@@ -626,7 +626,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -828,7 +828,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('재질'),
@@ -860,7 +860,7 @@ class _SalesCompletedState extends State<SalesCompleted> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },

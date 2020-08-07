@@ -10,7 +10,23 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  final Map<String, dynamic> _searchForm = <String, dynamic>{
+    'dealer': "",
+    'dealerPhone': "",
+    'modelName': "",
+    'firstDate': "",
+    'count': "",
+    'weight': "",
+    'weightDanwi': WeightType.don,
+    'length': "",
+    'lengthDanwi': LengthType.danwi,
+    'secondDate': "",
+    'bigo': "",
+  };
+
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController firstDateController = TextEditingController();
 
   LengthType choiceLength = LengthType.danwi;
 
@@ -37,6 +53,10 @@ class _OrderPageState extends State<OrderPage> {
     });
   }
 
+  void reset() {
+    setState(() => _searchForm.clear());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,23 +78,45 @@ class _OrderPageState extends State<OrderPage> {
                           constraints:
                               BoxConstraints.tight(Size(delerWide, boxHeight)),
                           child: TextFormField(
+                            initialValue: _searchForm['dealer'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: //자동 검색
                                   '거래처', //신규가 아닌 경우 매입거래처 등록에서 내용을 가져오고 신규는 등록한다.
                             ),
+                            onChanged: (String val) {
+                              setState(() => _searchForm['dealer'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '거래처를 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         ConstrainedBox(
                           constraints:
                               BoxConstraints.tight(Size(phoneWide, boxHeight)),
                           child: TextFormField(
+                            initialValue: _searchForm['dealerPhone'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText:
                                   '전화번호', //신규가 아닌 경우 매입거래처 등록에서 내용을 가져오고 신규는 등록한다.
                             ),
                             keyboardType: TextInputType.phone,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['dealerPhone'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '전화번호를 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -86,20 +128,45 @@ class _OrderPageState extends State<OrderPage> {
                               BoxConstraints.tight(Size(modelWide, boxHeight)),
                           child: TextFormField(
                             //15자 입력공간 필요
+                            initialValue: _searchForm['modelName'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '모델명', //카다로그에서 리스트컴색
                             ),
+                            keyboardType: TextInputType.text,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['modelName'] = val);
+                            },
+
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '모델명을 입력하세요';
+                              }
+                              return null;
+                            },
+                            onSaved: (String val) {},
                           ),
                         ),
                         ConstrainedBox(
                           constraints:
                               BoxConstraints.tight(Size(boxWide, boxHeight)),
                           child: TextFormField(
+                            initialValue: _searchForm['firstDate'],
                             decoration: InputDecoration(
-                              labelText: '    접수일',
+                              border: OutlineInputBorder(),
+
+                              labelText: '    접수일', //자동 당일날짜 입력
                             ),
-                            keyboardType: TextInputType.datetime,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['firstDate'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '접수일을 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -111,11 +178,22 @@ class _OrderPageState extends State<OrderPage> {
                           constraints:
                               BoxConstraints.tight(Size(countWide, boxHeight)),
                           child: TextFormField(
+                            initialValue: _searchForm['count'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '수량', //주문확인 카톡
                             ),
                             keyboardType: TextInputType.number,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['count'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '수량을 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         ConstrainedBox(
@@ -123,11 +201,22 @@ class _OrderPageState extends State<OrderPage> {
                             Size(weightWide, boxHeight),
                           ),
                           child: TextFormField(
+                            initialValue: _searchForm['weight'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '중량', //주문확인 카톡
                             ),
                             keyboardType: TextInputType.number,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['weight'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '중량을 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Container(
@@ -141,7 +230,7 @@ class _OrderPageState extends State<OrderPage> {
                           child: FormField<WeightType>(
                             builder: (FormFieldState<WeightType> state) {
                               return DropdownButton<WeightType>(
-                                value: choiceWeight,
+                                value: _searchForm['weightDanwi'],
                                 items: [
                                   DropdownMenuItem<WeightType>(
                                     child: Text('   단위'),
@@ -157,10 +246,12 @@ class _OrderPageState extends State<OrderPage> {
                                   ),
                                 ],
                                 onChanged: (WeightType val) {
-                                  setState(() => choiceWeight = val); //주문확인 카톡
+                                  setState(() => _searchForm['weightDanwi'] =
+                                      val); //주문확인 카톡
                                 },
                               );
                             },
+                            onSaved: (WeightType val) {},
                           ),
                         ),
                         ConstrainedBox(
@@ -168,11 +259,22 @@ class _OrderPageState extends State<OrderPage> {
                             Size(sizeWide, boxHeight),
                           ),
                           child: TextFormField(
+                            initialValue: _searchForm['length'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '사이즈', //주문확인 카톡
                             ),
                             keyboardType: TextInputType.number,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['length'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '사이즈를 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         Container(
@@ -186,7 +288,7 @@ class _OrderPageState extends State<OrderPage> {
                           child: FormField<LengthType>(
                             builder: (FormFieldState<LengthType> state) {
                               return DropdownButton<LengthType>(
-                                value: choiceLength,
+                                value: _searchForm['lengthDanwi'],
                                 items: [
                                   DropdownMenuItem<LengthType>(
                                     child: Text('   단위'),
@@ -202,10 +304,12 @@ class _OrderPageState extends State<OrderPage> {
                                   ),
                                 ],
                                 onChanged: (LengthType val) {
-                                  setState(() => choiceLength = val); //주문확인 카톡
+                                  setState(() => _searchForm['lengthDanwi'] =
+                                      val); //주문확인 카톡
                                 },
                               );
                             },
+                            onSaved: (LengthType val) {},
                           ),
                         ),
                       ],
@@ -217,22 +321,38 @@ class _OrderPageState extends State<OrderPage> {
                           constraints:
                               BoxConstraints.tight(Size(boxWide, boxHeight)),
                           child: TextFormField(
+                            initialValue: _searchForm['secondDate'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '출고일',
                             ),
                             keyboardType: TextInputType.datetime,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['secondDate'] = val);
+                            },
+                            onSaved: (String val) {},
+                            validator: (String val) {
+                              if (val.isEmpty) {
+                                return '출고일을 입력하세요';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         ConstrainedBox(
                           constraints:
                               BoxConstraints.tight(Size(bigoWide, boxHeight)),
                           child: TextFormField(
+                            initialValue: _searchForm['bigo'],
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '비고', //고객 요청사항 50자 미만
                             ),
                             keyboardType: TextInputType.number,
+                            onChanged: (String val) {
+                              setState(() => _searchForm['bigo'] = val);
+                            },
+                            onSaved: (String val) {},
                           ),
                         ),
                       ],
@@ -281,7 +401,23 @@ class _OrderPageState extends State<OrderPage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             color: Colors.teal,
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState
+                                    .save(); //TODO 추후변수에 저장하고 이내용을 출력한다.
+                                print(_searchForm['dealer']);
+                                print(_searchForm['dealerPhone']);
+                                print(_searchForm['modelName']);
+                                print(_searchForm['firstDate']);
+                                print(_searchForm['count']);
+                                print(_searchForm['weight']);
+                                print(_searchForm['weightDanwi']);
+                                print(_searchForm['length']);
+                                print(_searchForm['lengthDanwi']);
+                                print(_searchForm['secondDate']);
+                                print(_searchForm['bigo']);
+                              }
+                            },
                           ),
                         ),
                         SizedBox(
@@ -297,7 +433,22 @@ class _OrderPageState extends State<OrderPage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             color: Colors.deepPurpleAccent,
-                            onPressed: () {},
+                            onPressed: () {
+//                              setState(() {
+//                                _formKey.currentState.reset();
+//                              });
+                              _searchForm['dealer'] = "";
+                              _searchForm['dealerPhone'] = "";
+                              _searchForm['modelName'] = "";
+                              _searchForm['firstDate'] = "";
+                              _searchForm['count'] = "";
+                              _searchForm['weight'] = "";
+                              _searchForm['weightDanwi'] = WeightType.don;
+                              _searchForm['length'] = "";
+                              _searchForm['lengthDanwi'] = LengthType.danwi;
+                              _searchForm['secondDate'] = "";
+                              _searchForm['bigo'] = "";
+                            }, //TODO reset메서드 만들어 반영
                           ),
                         ),
                       ],

@@ -39,9 +39,9 @@ class ReceiptHistory extends StatefulWidget {
 class _ReceiptHistoryState extends State<ReceiptHistory> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
+  GoldType goldType = GoldType.metal;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
   WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
@@ -112,6 +112,7 @@ class _ReceiptHistoryState extends State<ReceiptHistory> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelText: '입고일',
+                              labelStyle: TextStyle(color: Colors.red),
                             ),
                             keyboardType: TextInputType.datetime,
                           ),
@@ -164,7 +165,7 @@ class _ReceiptHistoryState extends State<ReceiptHistory> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('  재질'), //주문장으로 부터
@@ -196,7 +197,7 @@ class _ReceiptHistoryState extends State<ReceiptHistory> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -438,7 +439,7 @@ class _ReceiptHistoryState extends State<ReceiptHistory> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('   재질'), ////주문장으로 부터
@@ -470,7 +471,7 @@ class _ReceiptHistoryState extends State<ReceiptHistory> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },

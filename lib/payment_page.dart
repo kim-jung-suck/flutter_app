@@ -9,6 +9,16 @@ enum GoldType {
   nintyine_five,
   etc
 }
+enum GoldType2 {
+  //받은 금의 재질
+  metal,
+  forteenk,
+  eighteenk,
+  fournine,
+  threenine,
+  nintyine_five,
+  etc
+}
 enum LengthType { danwi, cm, ho }
 enum WeightType { danwi, don, g }
 enum ModelType {
@@ -37,6 +47,7 @@ class _PaymentPageState extends State<PaymentPage> {
   final _formKey = GlobalKey<FormState>();
 
   GoldType searchType = GoldType.metal;
+  GoldType2 searchType2 = GoldType2.metal;
   LengthType choiceLength = LengthType.danwi;
   ModelType searchModel = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
@@ -401,17 +412,6 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                         ConstrainedBox(
                           constraints: BoxConstraints.tight(
-                              Size(bigoWide - 100, boxHeight)),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: '비고', //주문관리에서
-                            ),
-                            keyboardType: TextInputType.text,
-                          ),
-                        ),
-                        ConstrainedBox(
-                          constraints: BoxConstraints.tight(
                               Size(boxWide - 30, boxHeight)),
                           child: TextFormField(
                             decoration: InputDecoration(
@@ -449,11 +449,6 @@ class _PaymentPageState extends State<PaymentPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
                         ConstrainedBox(
                           constraints: BoxConstraints.tight(
                               Size(boxWide - 30, boxHeight)),
@@ -461,7 +456,9 @@ class _PaymentPageState extends State<PaymentPage> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               labelStyle: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.bold),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red),
                               labelText: '순금중량', //재질 99.9, 99.5선택시 중량 그대로 사용
                             ),
                             keyboardType: TextInputType.number,
@@ -482,6 +479,11 @@ class _PaymentPageState extends State<PaymentPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Container(
                           width: boxWide,
                           height: boxHeight - 18,
@@ -542,10 +544,6 @@ class _PaymentPageState extends State<PaymentPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
                         ConstrainedBox(
                           constraints:
                               BoxConstraints.tight(Size(boxWide, boxHeight)),
@@ -558,6 +556,10 @@ class _PaymentPageState extends State<PaymentPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         ConstrainedBox(
                           constraints:
                               BoxConstraints.tight(Size(boxWide, boxHeight)),
@@ -592,11 +594,6 @@ class _PaymentPageState extends State<PaymentPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
                         ConstrainedBox(
                           constraints:
                               BoxConstraints.tight(Size(boxWide, boxHeight)),
@@ -610,9 +607,14 @@ class _PaymentPageState extends State<PaymentPage> {
                             keyboardType: TextInputType.number,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         ConstrainedBox(
-                          constraints:
-                              BoxConstraints.tight(Size(boxWide, boxHeight)),
+                          constraints: BoxConstraints.tight(
+                              Size(boxWide - 20, boxHeight)),
                           child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -621,6 +623,81 @@ class _PaymentPageState extends State<PaymentPage> {
                               labelStyle: TextStyle(color: Colors.red),
                             ),
                             keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        Container(
+                          width: dmetalWide,
+                          height: dboxHeight,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                          ),
+                          child: FormField<GoldType2>(
+                            //GoldType와 내용은 같지만 변수를 달리하지 않은면 같이 연동되어 기재가 어렵다
+                            builder: (FormFieldState<GoldType2> state) {
+                              //거채처에서 거래형태를 중량으로 했을 경우 적용하고 금제품에 대한 금덩어리를 지불하여 교한하고 분석료, 공임등은 현금으로 지불한다.
+                              return DropdownButton<GoldType2>(
+                                value: searchType2,
+                                items: [
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('재질'), //주문관리에서
+                                    value: GoldType2.metal,
+                                  ),
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('99.99'),
+                                    value: GoldType2.fournine,
+                                  ),
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('99.9'),
+                                    value: GoldType2.threenine,
+                                  ),
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('99.5'),
+                                    value: GoldType2.nintyine_five,
+                                  ),
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('18k'),
+                                    value: GoldType2.eighteenk,
+                                  ),
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('14k'),
+                                    value: GoldType2.forteenk,
+                                  ),
+                                  DropdownMenuItem<GoldType2>(
+                                    child: Text('기타'),
+                                    value: GoldType2.etc,
+                                  ),
+                                ],
+                                onChanged: (GoldType2 val) {
+                                  setState(() => searchType2 = val);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints: BoxConstraints.tight(
+                              Size(boxWide - 20, boxHeight)),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText:
+                                  '분석료', //거래형태에서 중량선택시 적용, 무땜 1,500원, 땜 2,500원, 칠보 5,000원
+                              labelStyle: TextStyle(color: Colors.red),
+                            ),
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                        ConstrainedBox(
+                          constraints: BoxConstraints.tight(
+                              Size(bigoWide - 100, boxHeight)),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: '기타',
+                                labelStyle: TextStyle(color: Colors.red)),
+                            keyboardType: TextInputType.text,
                           ),
                         ),
                       ],
@@ -664,7 +741,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -38,10 +38,10 @@ class SalesManage extends StatefulWidget {
 class _SalesManageState extends State<SalesManage> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
-  GoldType2 searchType2 = GoldType2.eighteenk;
+  GoldType goldType = GoldType.metal;
+  GoldType2 goldType2 = GoldType2.eighteenk;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
   WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
@@ -187,7 +187,7 @@ class _SalesManageState extends State<SalesManage> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('재질'), //확정상태임
@@ -219,7 +219,7 @@ class _SalesManageState extends State<SalesManage> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -409,7 +409,7 @@ class _SalesManageState extends State<SalesManage> {
                           child: FormField<GoldType2>(
                             builder: (FormFieldState<GoldType2> state) {
                               return DropdownButton<GoldType2>(
-                                value: searchType2,
+                                value: goldType2,
                                 items: [
                                   DropdownMenuItem<GoldType2>(
                                     child: Text('재질'),
@@ -429,7 +429,7 @@ class _SalesManageState extends State<SalesManage> {
                                   ),
                                 ],
                                 onChanged: (GoldType2 val) {
-                                  setState(() => searchType2 = val);
+                                  setState(() => goldType2 = val);
                                 },
                               );
                             },
@@ -729,7 +729,7 @@ class _SalesManageState extends State<SalesManage> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('   재질'), ////주문장으로 부터
@@ -761,7 +761,7 @@ class _SalesManageState extends State<SalesManage> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },

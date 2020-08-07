@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum LengthType { danwi, cm, ho }
+enum WeightType { danwi, don, g }
 enum GoldType {
   metal,
   forteenk,
@@ -9,8 +11,6 @@ enum GoldType {
   nintyine_five,
   etc
 }
-enum LengthType { danwi, cm, ho }
-enum WeightType { danwi, don, g }
 enum ModelType {
   model,
   necklace,
@@ -23,7 +23,7 @@ enum ModelType {
   golfBall,
   etc
 }
-enum ModifiedType { modi, date, count, size, extraLine, subLine }
+
 enum DecoType { deco, separate, exchange, label, waxgu }
 enum ProgressType { progress, order, fac, office, custo, custo1 }
 enum SpeedType { speed, nomal, fast, highfast }
@@ -39,15 +39,14 @@ class OrderManage extends StatefulWidget {
 class _OrderManageState extends State<OrderManage> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
+  GoldType goldType = GoldType.metal;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
   WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
-  ModifiedType modifiedType = ModifiedType.modi;
   SpeedType speedType = SpeedType.speed;
-  ProductType productType = ProductType.productType;
+  ProductType productType = ProductType.ready;
 
   bool choiceOrder = true;
   double boxWide = 90;
@@ -86,23 +85,6 @@ class _OrderManageState extends State<OrderManage> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  ConstrainedBox(
-                    constraints:
-                        BoxConstraints.tight(Size(boxWide + 130, boxHeight)),
-                    child: ListTile(
-                      onTap: _getchoiceOrder,
-                      title: Text('주문리스트 출력'),
-                      leading: choiceOrder
-                          ? Icon(Icons.check_box_outline_blank)
-                          : Icon(
-                              Icons.check_box,
-                            ),
-                    ),
-                  ),
-                ],
-              ),
               Container(
                 child: Column(
                   children: [
@@ -218,12 +200,14 @@ class _OrderManageState extends State<OrderManage> {
                                   DropdownMenuItem<ProductType>(
                                     child: Text(
                                       '타입',
-                                      style: TextStyle(color: Colors.red),
                                     ),
                                     value: ProductType.productType,
                                   ),
                                   DropdownMenuItem<ProductType>(
-                                    child: Text('기성'),
+                                    child: Text(
+                                      '기성',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                     value: ProductType.ready,
                                   ),
                                   DropdownMenuItem<ProductType>(
@@ -249,7 +233,7 @@ class _OrderManageState extends State<OrderManage> {
                           child: FormField<ModelType>(
                             builder: (FormFieldState<ModelType> state) {
                               return DropdownButton<ModelType>(
-                                value: searchModel,
+                                value: modelType,
                                 items: [
                                   DropdownMenuItem<ModelType>(
                                     child: Text(
@@ -296,7 +280,7 @@ class _OrderManageState extends State<OrderManage> {
                                   ),
                                 ],
                                 onChanged: (ModelType val) {
-                                  setState(() => searchModel = val);
+                                  setState(() => modelType = val);
                                 },
                               );
                             },
@@ -329,10 +313,15 @@ class _OrderManageState extends State<OrderManage> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
-                                    child: Text('재질'), //주문장=>카다로그로 부터
+                                    child: Text(
+                                      '재질',
+                                      style: TextStyle(
+                                          color:
+                                              Colors.orange), //오렌지는 값을 카달로그로부터
+                                    ), //주문장=>카다로그로 부터
                                     value: GoldType.metal,
                                   ),
                                   DropdownMenuItem<GoldType>(
@@ -361,7 +350,7 @@ class _OrderManageState extends State<OrderManage> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -468,7 +457,10 @@ class _OrderManageState extends State<OrderManage> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '공임', //주문장 => 카다로그로부터
+                              labelText: '공임',
+                              labelStyle: TextStyle(
+                                  color: Colors
+                                      .orange), //오렌지는 값을 카달로그로부터 //주문장 => 카다로그로부터
                             ),
                             keyboardType: TextInputType.number,
                           ),
@@ -490,7 +482,10 @@ class _OrderManageState extends State<OrderManage> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '제조사', //주문장 => 카다로그로부터
+                              labelText: '제조사',
+                              labelStyle: TextStyle(
+                                  color: Colors
+                                      .orange), //오렌지는 값을 카달로그로부터 //주문장 => 카다로그로부터
                             ),
                             keyboardType: TextInputType.text,
                           ),
@@ -725,7 +720,7 @@ class _OrderManageState extends State<OrderManage> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('   재질'), ////주문장으로 부터
@@ -757,7 +752,7 @@ class _OrderManageState extends State<OrderManage> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -872,7 +867,24 @@ class _OrderManageState extends State<OrderManage> {
 //                    )
                   ],
                 ),
-              )
+              ),
+              Row(
+                children: [
+                  ConstrainedBox(
+                    constraints:
+                        BoxConstraints.tight(Size(boxWide + 130, boxHeight)),
+                    child: ListTile(
+                      onTap: _getchoiceOrder,
+                      title: Text('주문리스트 출력'),
+                      leading: choiceOrder
+                          ? Icon(Icons.check_box_outline_blank)
+                          : Icon(
+                              Icons.check_box,
+                            ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

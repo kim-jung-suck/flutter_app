@@ -26,8 +26,8 @@ enum ModelType {
 enum ModifiedType { modi, date, count, size, extraLine, subLine }
 enum DecoType { deco, separate, exchange, label, waxgu }
 enum ProgressType { progress, order, fac, office, custo, custo1 }
-enum PeriodType { shotType, longType, incomplete }
-enum HoldingType { holding, rental, repair, returning }
+enum PeriodType { shotType, longType }
+enum HoldingType { holding, rental, repair }
 enum ProductType { productType, ready, order }
 
 class WarehouseManagement extends StatefulWidget {
@@ -39,9 +39,9 @@ class WarehouseManagement extends StatefulWidget {
 class _WarehouseManagementState extends State<WarehouseManagement> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
+  GoldType goldType = GoldType.metal;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
   WeightType choiceWeight = WeightType.don;
   ProgressType progressType = ProgressType.progress;
@@ -285,7 +285,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                           child: FormField<ModelType>(
                             builder: (FormFieldState<ModelType> state) {
                               return DropdownButton<ModelType>(
-                                value: searchModel,
+                                value: modelType,
                                 items: [
                                   DropdownMenuItem<ModelType>(
                                     child: Text(
@@ -332,7 +332,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                                   ),
                                 ],
                                 onChanged: (ModelType val) {
-                                  setState(() => searchModel = val);
+                                  setState(() => modelType = val);
                                 },
                               );
                             },
@@ -354,7 +354,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text(' 재질'), //주문관리로 부터
@@ -386,7 +386,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -591,7 +591,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text(
@@ -613,7 +613,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -681,7 +681,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                           child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: '매입단가', //카다로그로 부터 또는 입고관리의 입고단가와 같은 내용
+                              labelText: '입고공임', //카다로그로 부터 또는 입고관리의 입고단가와 같은 내용
                             ),
                             keyboardType: TextInputType.number,
                           ),
@@ -822,7 +822,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('재질'),
@@ -854,7 +854,7 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },
@@ -933,6 +933,24 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints.tight(
+                            Size(boxWide, buttonHeight),
+                          ),
+                          child: RaisedButton(
+                            child: Text(
+                              '반납', //체크된 보유재고 중 체크된 제품들을 반납할 경우 버튼을 클릭하여 보유재고에서 삭제한다
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: Colors.lightBlue,
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
                     )
                   ],
                 ),
@@ -959,3 +977,76 @@ class _WarehouseManagementState extends State<WarehouseManagement> {
     );
   }
 }
+
+//class Summary {
+//  final String dealer; ////주문장 거래처
+//  final String dealerPhone; //거래처 연락처
+//  final String modelName; //모델명
+//  final String firstDate; //접수일
+//  final String count; //수량
+//  final String weight; //중량
+//  final WeightType weightType_don; //중량_돈
+//  final WeightType weightType_g; //중량_g
+//  final String length; //사이즈
+//  final LengthType lengthType_cm; //사이즈_cm
+//  final LengthType lengthType_ho; //사이즈_ho
+//  final String secondDate; //출고일
+//  final String bigo; //비고
+//  final SpeedType speedType_nomal; ////주문관리부분 속도 일반
+//  final SpeedType speedType_fast; // 속도 급
+//  final SpeedType speedType_highfast; //속도 초급
+//  final ProductType productType_ready; //기성
+//  final ProductType productType_order; //주문
+//  final ModelType modelType_necklace; //모델구분 목걸이
+//  final ModelType modelType_ring; //반지
+//  final ModelType modelType_earing; //귀걸이
+//  final ModelType modelType_bracelet; //팔찌
+//  final ModelType modelType_bar; //골드바
+//  final ModelType modelType_key; //열쇠
+//  final ModelType modelType_namecard; //명함
+//  final ModelType modelType_golfball; //골프공
+//  final ModelType modelType_etc; //기타
+//  final GoldType goldType_fournine; //재질 99.99
+//  final GoldType goldType_threenine; //99.9
+//  final GoldType goldType_nintynine_five; //99.5
+//  final GoldType goldType_eighteenk; //18k
+//  final GoldType goldType_forteenk; //14k
+//  final GoldType goldType_etc; //기타
+//  final String Gongym; //공임
+//  final String supplier; //제조사
+//  final DecoType decoType_separate; //장식 별도
+//  final DecoType decoType_exchange; //환산
+//  final DecoType decoType_label; //라벨
+//  final DecoType decoType_waxgu; //왁구
+//  final String decoWeight; //장식중량
+//  final String decoGongym; //장식공임
+//  final String lingWeight; //줄중량
+//  final String lineGongym; //줄공임
+//  final String additionalCost; //추가비용
+//  final ProgressType progressType_order; //진행단계 주문접수.
+//  final ProgressType progressType_fac; //공장발주
+//  final ProgressType progressType_office; //입고
+//  final ProgressType progressType_custo; //판매
+//  final ProgressType progressType_custo1; //직판
+//  final String serialNo; ////입고관리
+//  final String ypgoDate; //입고일
+//  final String ypgogongym; //입고공임
+//  final PeriodType periodType_shotType; ////재고관리 단기
+//  final PeriodType periodType_longType; //단기
+//  final HoldingType holdingType_holding; //보유재고
+//  final HoldingType holdingType_rental; //대여재고
+//  final HoldingType holdingType_repair; //수리재고
+//  final String panmaedanga; // 판매단가
+//  final String puregoldWeight; ////결재창 순금중량 중량과 같은 것임. 구분을 해야하나?
+//  final String 18kWeight;//18k 중량
+//  final TradeType tradeType_price; //거래형태 시세
+//  final TradeType tradeType_weight;
+//  final String backsise;//뒷시세
+//  final String frontsise;//앞시세
+//  final String applysise;//적용시세
+//  final String supplyValue;//공급가액
+//  final String tax;//세액
+//  final String totalAmount;//총액
+//  final String analysisFee;//돈당분석료
+//  final String receivedGold;//받은 금        <====미완 재질2 부터 기록
+//}

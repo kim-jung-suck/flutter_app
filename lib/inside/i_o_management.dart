@@ -54,9 +54,9 @@ class IOManagement extends StatefulWidget {
 class _IOManagementState extends State<IOManagement> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
+  GoldType goldType = GoldType.metal;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   DecoType choiceDeco = DecoType.deco;
   WeightType choiceWeight = WeightType.danwi;
   ProgressType progressType = ProgressType.progress;
@@ -288,7 +288,7 @@ class _IOManagementState extends State<IOManagement> {
                           child: FormField<GoldType>(
                             builder: (FormFieldState<GoldType> state) {
                               return DropdownButton<GoldType>(
-                                value: searchType,
+                                value: goldType,
                                 items: [
                                   DropdownMenuItem<GoldType>(
                                     child: Text('재질'),
@@ -320,7 +320,7 @@ class _IOManagementState extends State<IOManagement> {
                                   ),
                                 ],
                                 onChanged: (GoldType val) {
-                                  setState(() => searchType = val);
+                                  setState(() => goldType = val);
                                 },
                               );
                             },

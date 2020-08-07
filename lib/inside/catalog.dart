@@ -36,9 +36,9 @@ class Catalog extends StatefulWidget {
 class _CatalogState extends State<Catalog> {
   final _formKey = GlobalKey<FormState>();
 
-  GoldType searchType = GoldType.metal;
+  GoldType goldType = GoldType.metal;
   LengthType choiceLength = LengthType.danwi;
-  ModelType searchModel = ModelType.model;
+  ModelType modelType = ModelType.model;
   WeightType choiceWeight = WeightType.don;
   SetType setType = SetType.settype;
   OpenType openType = OpenType.opentype;
@@ -141,7 +141,7 @@ class _CatalogState extends State<Catalog> {
                         child: FormField<ModelType>(
                           builder: (FormFieldState<ModelType> state) {
                             return DropdownButton<ModelType>(
-                              value: searchModel,
+                              value: modelType,
                               items: [
                                 DropdownMenuItem<ModelType>(
                                   child: Text('모델구분'),
@@ -185,7 +185,7 @@ class _CatalogState extends State<Catalog> {
                                 ),
                               ],
                               onChanged: (ModelType val) {
-                                setState(() => searchModel = val);
+                                setState(() => modelType = val);
                               },
                             );
                           },
@@ -339,7 +339,7 @@ class _CatalogState extends State<Catalog> {
                         child: FormField<GoldType>(
                           builder: (FormFieldState<GoldType> state) {
                             return DropdownButton<GoldType>(
-                              value: searchType,
+                              value: goldType,
                               items: [
                                 DropdownMenuItem<GoldType>(
                                   child: Text(' 재질'),
@@ -371,7 +371,7 @@ class _CatalogState extends State<Catalog> {
                                 ),
                               ],
                               onChanged: (GoldType val) {
-                                setState(() => searchType = val);
+                                setState(() => goldType = val);
                               },
                             );
                           },
